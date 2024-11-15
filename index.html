@@ -1,242 +1,55 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invitación a mis 15 años</title>
-    <style>
-        /* Estilos generales para la página */
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f3f3f3;
-        }
+  <!-- Imagen de bienvenida -->
+<img src="ruta/a/tu-imagen.jpg" alt="Imagen de bienvenida" style="width: 100%; max-height: 400px; object-fit: cover;">
 
-        /* Sección de inicio con imagen de fondo */
-        .inicio {
-            background: url('portada.png') no-repeat center center;
-            background-size: cover;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #ffffff;
-            text-align: center;
-            flex-direction: column;
-        }
+<!-- Espacio entre la imagen y la cuenta regresiva -->
+<div style="height: 50px;"></div>
 
-        .inicio h1 {
-            font-size: 2.5em;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-            margin-bottom: 20px;
-        }
+<!-- Contador regresivo -->
+<section>
+  <table align="center" width="90%">
+    <tr>
+      <td><span id="days"></span></td>
+      <td><span id="hours"></span></td>
+      <td><span id="minutes"></span></td>
+      <td><span id="seconds"></span></td>
+    </tr>
+    <tr>
+      <th>Días</th>
+      <th>Horas</th>
+      <th>Minutos</th>
+      <th>Segundos</th>
+    </tr>
+  </table>
+</section>
 
-        /* Estilo de la cuenta regresiva */
-        td {
-            border-style: solid;
-            border-color: #4d3c30;
-            border-width: 0px;
-            color: #4d3c30;
-            padding: 10px;
-            font-size: 30px;
-            font-family: Arial;
-            text-align: center;
-        }
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const DATE_TARGET = new Date('11/23/2024 9:30 PM');
+    const SPAN_DAYS = document.querySelector('span#days');
+    const SPAN_HOURS = document.querySelector('span#hours');
+    const SPAN_MINUTES = document.querySelector('span#minutes');
+    const SPAN_SECONDS = document.querySelector('span#seconds');
 
-        th {
-            border-width: 0px;
-            color: #4d3c30;
-            text-align: center;
-            padding: 0px;
-            font-size: 12px;
-            font-family: Times New Roman;
-        }
+    const MILLISECONDS_OF_A_SECOND = 1000;
+    const MILLISECONDS_OF_A_MINUTE = MILLISECONDS_OF_A_SECOND * 60;
+    const MILLISECONDS_OF_A_HOUR = MILLISECONDS_OF_A_MINUTE * 60;
+    const MILLISECONDS_OF_A_DAY = MILLISECONDS_OF_A_HOUR * 24;
 
-        .countdown {
-            margin-top: 30px;
-        }
+    function updateCountdown() {
+      const NOW = new Date();
+      const DURATION = DATE_TARGET - NOW;
+      const REMAINING_DAYS = Math.floor(DURATION / MILLISECONDS_OF_A_DAY);
+      const REMAINING_HOURS = Math.floor((DURATION % MILLISECONDS_OF_A_DAY) / MILLISECONDS_OF_A_HOUR);
+      const REMAINING_MINUTES = Math.floor((DURATION % MILLISECONDS_OF_A_HOUR) / MILLISECONDS_OF_A_MINUTE);
+      const REMAINING_SECONDS = Math.floor((DURATION % MILLISECONDS_OF_A_MINUTE) / MILLISECONDS_OF_A_SECOND);
 
-        /* Contenedor principal */
-        .container {
-            margin: 0 auto;
-            max-width: 800px;
-            background: #fff;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            margin-top: 20px;
-        }
+      SPAN_DAYS.textContent = REMAINING_DAYS;
+      SPAN_HOURS.textContent = REMAINING_HOURS;
+      SPAN_MINUTES.textContent = REMAINING_MINUTES;
+      SPAN_SECONDS.textContent = REMAINING_SECONDS;
+    }
 
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            color: #4a004a;
-        }
-
-        p {
-            font-size: 1.2em;
-            line-height: 1.5;
-        }
-
-        .details {
-            margin: 20px 0;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #ff66cc;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 1em;
-        }
-
-        .btn:hover {
-            background-color: #e55dbb;
-        }
-
-        footer {
-            margin-top: 20px;
-            font-size: 0.9em;
-            color: #7a007a;
-        }
-
-        /* Media Queries para pantallas pequeñas */
-        @media (max-width: 768px) {
-            .inicio h1 {
-                font-size: 1.8em;
-            }
-
-            h1 {
-                font-size: 2em;
-            }
-
-            p {
-                font-size: 1em;
-            }
-
-            .container {
-                padding: 10px;
-                width: 90%;
-            }
-
-            .btn {
-                padding: 8px 16px;
-                font-size: 0.9em;
-            }
-
-            footer {
-                font-size: 0.8em;
-            }
-
-            /* Fondo de la imagen en dispositivos pequeños */
-            .inicio {
-                background-size: contain;
-            }
-        }
-
-        /* Media Queries para pantallas más grandes (tabletas y escritorios) */
-        @media (min-width: 1024px) {
-            .inicio h1 {
-                font-size: 3em;
-            }
-
-            h1 {
-                font-size: 2.5em;
-            }
-
-            .container {
-                width: 800px;
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Sección de inicio con imagen de fondo y música de fondo -->
-    <div class="inicio">
-        <h1>¡Bienvenido a mi fiesta de 15 años!</h1>
-        <div class="countdown">
-            <!-- Aquí se mostrará la cuenta regresiva -->
-            <table align="center" width="90%">
-                <tr>
-                    <td><span id="days"></span></td>
-                    <td><span id="hours"></span></td>
-                    <td><span id="minutes"></span></td>
-                    <td><span id="seconds"></span></td>
-                </tr>
-                <tr>
-                    <th>Días</th>
-                    <th>Horas</th>
-                    <th>Minutos</th>
-                    <th>Segundos</th>
-                </tr>
-            </table>
-        </div>
-        <!-- Reproductor de música automática -->
-        <audio autoplay loop>
-            <source src="tu-musica.mp3" type="audio/mp3">
-            Tu navegador no soporta la reproducción de audio.
-        </audio>
-    </div>
-    
-    <!-- Contenido principal -->
-    <div class="container">
-        <h1>¡Estás Invitado!</h1>
-        <p>Con mucha alegría, te invito a celebrar mis 15 años.</p>
-        <div class="details">
-            <p><strong>Fecha:</strong> Sábado 25 de Mayo de 2024</p>
-            <p><strong>Hora:</strong> 7:00 PM</p>
-            <p><strong>Lugar:</strong> Salón de Fiestas "Los Encantos"<br>Av. Principal 123, Ciudad Bella</p>
-        </div>
-        <p>Será una noche inolvidable y tu presencia hará que sea aún más especial.</p>
-        <a href="https://goo.gl/maps/example" class="btn" target="_blank">Ver ubicación</a>
-    </div>
-    
-    <footer>
-        <p>Con cariño, <strong>Tu Nombre</strong>.</p>
-    </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => { 
-
-            //=== VARIABLES ===
-            const DATE_TARGET = new Date('May 25, 2024 19:00:00'); // Fecha del evento
-            const SPAN_DAYS = document.querySelector('span#days');
-            const SPAN_HOURS = document.querySelector('span#hours');
-            const SPAN_MINUTES = document.querySelector('span#minutes');
-            const SPAN_SECONDS = document.querySelector('span#seconds');
-
-            const MILLISECONDS_OF_A_SECOND = 1000;
-            const MILLISECONDS_OF_A_MINUTE = MILLISECONDS_OF_A_SECOND * 60;
-            const MILLISECONDS_OF_A_HOUR = MILLISECONDS_OF_A_MINUTE * 60;
-            const MILLISECONDS_OF_A_DAY = MILLISECONDS_OF_A_HOUR * 24;
-
-            //=== FUNCIONES ===
-
-            function updateCountdown() {
-                const NOW = new Date();
-                const DURATION = DATE_TARGET - NOW;
-
-                const REMAINING_DAYS = Math.floor(DURATION / MILLISECONDS_OF_A_DAY);
-                const REMAINING_HOURS = Math.floor((DURATION % MILLISECONDS_OF_A_DAY) / MILLISECONDS_OF_A_HOUR);
-                const REMAINING_MINUTES = Math.floor((DURATION % MILLISECONDS_OF_A_HOUR) / MILLISECONDS_OF_A_MINUTE);
-                const REMAINING_SECONDS = Math.floor((DURATION % MILLISECONDS_OF_A_MINUTE) / MILLISECONDS_OF_A_SECOND);
-
-                // Actualizar los valores de la cuenta regresiva en la página
-                SPAN_DAYS.textContent = REMAINING_DAYS;
-                SPAN_HOURS.textContent = REMAINING_HOURS;
-                SPAN_MINUTES.textContent = REMAINING_MINUTES;
-                SPAN_SECONDS.textContent = REMAINING_SECONDS;
-            }
-
-            // Inicialización
-            updateCountdown();
-            setInterval(updateCountdown, MILLISECONDS_OF_A_SECOND);
-        });
-    </script>
-
-</body>
-</html>
+    updateCountdown();
+    setInterval(updateCountdown, MILLISECONDS_OF_A_SECOND);
+  });
+</script>
